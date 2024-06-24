@@ -68,5 +68,3 @@ Certifique-se de que as portas configuradas no projeto back-end estão corretas 
 - Expo (ou qualquer outro framework utilizado para o front-end)
 
 ---
-
-Essas são as instruções básicas para rodar o projeto. Caso encontre algum problema ou tenha alguma dúvida, consulte a documentação oficial das tecnologias utilizadas ou entre em contato com a equipe de desenvolvimento.
