@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model user {
+
+  id String @id @default(uuid())
+  username String 
+  password String 
+  email String @unique
+  phone String
+
+  @@map("User")
+}
+
+model Collaborator {
+  id          String       @id @default(uuid())
+  name        String
+  cpf         String    @unique
+  rg          String?
+  address     String?
+  cep    Int?
+  phone       String?
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  status      Boolean
+  birth_date  DateTime?
+ 
+
+  @@map("Collaborator")
+
+  production  Production[]
+  payment    Payment[]
+}
+
+model Production {
+  id            String      @id @default(uuid())
+  quantity        Int
+  total_value     Float
+  production_date DateTime?
+  created_at      DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  collaborator    Collaborator @relation(fields: [idCollaborator], references: [id])
+  product         Product      @relation(fields: [idProduct], references: [id])
+
+
+  @@map("Production")
+  idCollaborator String
+  idProduct    String
+}
+
+model  Product  {
+  id          String      @id @default(uuid())
+  product_name String
+  price       Float?
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  
+ @@map("Product")
+ Production  Production[]
+}
+
+model Payment {
+  id            String      @id @default(uuid())
+  date          DateTime?
+  total_value   Float
+  payment_method String?
+  status        Boolean
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  collaborator  Collaborator @relation(fields: [IdCollaborator], references: [id])
+
+  @@map("Payment")
+  IdCollaborator String
+}
